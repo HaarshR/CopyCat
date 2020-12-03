@@ -24,16 +24,22 @@ const generateGrid = (component, parentComponent) => {
   parentComponent.appendChild(component);
 };
 
+const generateButton = (classList) => {
+  let button = document.createElement("button");
+
+  if (classList.length > 0) {
+    classList.forEach((className) => {
+      button.classList.add(className);
+    });
+  }
+
+  return button;
+};
+
 if (gridSize > 2) {
   for (let i = 0; i < gridSize * gridSize; i++) {
-    let computerButton = document.createElement("button");
-    computerButton.classList.add("btn-primary");
-    computerButton.classList.add("btn");
-    computerButton.classList.add("m-1");
-    let userButton = document.createElement("button");
-    userButton.classList.add("btn-success");
-    userButton.classList.add("btn");
-    userButton.classList.add("m-1");
+    let computerButton = generateButton(["btn", "btn-primary", "m-1"]);
+    let userButton = generateButton(["btn", "btn-success", "m-1"]);
 
     generateGrid(computerButton, computerGridContainer);
     generateGrid(userButton, userGridContainer);
