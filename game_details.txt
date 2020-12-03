@@ -1,0 +1,11 @@
+COPY Cat
+
+Setting and Objective:
+1. There is 2 grid of buttons, 1 for the computer and 1 for the user.
+2. The buttons of the computers grid light up in a pattern, the user has to repeat the pattern.
+3. The user wins if they can replicate the pattern.
+
+Difficulty Settings:
+1. Bigger grid
+2. Faster button light up
+3. Longer patterns
