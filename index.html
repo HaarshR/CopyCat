@@ -13,14 +13,14 @@
     />
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="offset-2 col-8 text-center p-5">
           <h1 class="text-center">Copy Cat</h1>
         </div>
       </div>
       <div class="row">
-        <div class="col d-flex justify-content-center pb-5">
+        <div class="col-sm-12 col-lg-4 d-flex justify-content-center pb-5">
           <form class="form-inline" onsubmit="return false;">
             <div class="form-group">
               <h4 class="px-3 text-center">Grid Size</h4>
@@ -38,6 +38,42 @@
             </div>
           </form>
         </div>
+        <div class="col-sm-12 col-lg-4 d-flex justify-content-center pb-5">
+          <form class="form-inline" onsubmit="return false;">
+            <div class="form-group">
+              <h4 class="px-3 text-center">Computer Speed</h4>
+              <input
+                id="computer-speed"
+                class="form-control"
+                type="range"
+                min="1"
+                max="5"
+                value="1"
+                style="text-align: center"
+                required
+              />
+              <h4 id="computer-speed-label" class="px-3 text-center"></h4>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-12 col-lg-4 d-flex justify-content-center pb-5">
+          <form class="form-inline" onsubmit="return false;">
+            <div class="form-group">
+              <h4 class="px-3 text-center">Pattern length</h4>
+              <input
+                id="pattern-length"
+                class="form-control"
+                type="range"
+                min="3"
+                max="10"
+                value="3"
+                style="text-align: center"
+                required
+              />
+              <h4 id="pattern-length-label" class="px-3 text-center"></h4>
+            </div>
+          </form>
+        </div>
       </div>
       <div class="row">
         <div class="col d-flex justify-content-center">
@@ -48,6 +84,7 @@
         </div>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
     <script src="./index.js"></script>
   </body>
 </html>

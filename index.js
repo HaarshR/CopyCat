@@ -1,9 +1,17 @@
 const gridSizeInput = document.getElementById("grid-size");
 const gridSizeLabel = document.getElementById("grid-size-label");
 
+const computerSpeedInput = document.getElementById("computer-speed");
+const computerSpeedLabel = document.getElementById("computer-speed-label");
+
+const patternLengthInput = document.getElementById("pattern-length");
+const patternLengthLabel = document.getElementById("pattern-length-label");
+
 const BOX_SIZE = 100; // Fixed button size
 
 let gridSize = 0; // User Chooses
+let computerSpeed = 0;
+let patternLength = 0;
 
 const computerGridContainer = document.getElementById(
   "computer-grid-container"
@@ -84,9 +92,23 @@ const resetGrid = () => {
   userGridContainer.textContent = "";
 };
 
+const setComputerSpeed = () => {
+  computerSpeed = computerSpeedInput.value;
+  computerSpeedLabel.innerText = computerSpeed;
+};
+
+const setPatternLength = () => {
+  patternLength = patternLengthInput.value;
+  patternLengthLabel.innerText = patternLength;
+};
+
 gridSizeInput.addEventListener("input", buildGrid);
+computerSpeedInput.addEventListener("input", setComputerSpeed);
+patternLengthInput.addEventListener("input", setPatternLength);
 
 const main = () => {
+  setComputerSpeed();
+  setPatternLength();
   buildGrid();
 };
 
