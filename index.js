@@ -1,6 +1,6 @@
 let gridSize = 3; // User Chooses
-let boxSize = 75;
-let repeatCSS = `repeat(${gridSize}, ${boxSize}px)`;
+const BOX_SIZE = 100;
+let repeatCSS = `repeat(${gridSize}, ${BOX_SIZE}px)`;
 
 const computerGridContainer = document.getElementById(
   "computer-grid-container"
@@ -18,6 +18,12 @@ userGridContainerStyle.display = "grid";
 userGridContainerStyle.gridTemplateColumns = repeatCSS;
 userGridContainerStyle.gridTemplateRows = repeatCSS;
 
+const generateGrid = (component, parentComponent) => {
+  component.style.width = BOX_SIZE;
+  component.style.height = BOX_SIZE;
+  parentComponent.appendChild(component);
+};
+
 if (gridSize > 2) {
   for (let i = 0; i < gridSize * gridSize; i++) {
     let computerButton = document.createElement("button");
@@ -29,14 +35,7 @@ if (gridSize > 2) {
     userButton.classList.add("btn");
     userButton.classList.add("m-1");
 
-    computerButton.style.width = boxSize;
-    computerButton.style.height = boxSize;
-    computerButton.innerText = i + 1;
-    computerGridContainer.appendChild(computerButton);
-
-    userButton.style.width = boxSize;
-    userButton.style.height = boxSize;
-    userButton.innerText = i + 1;
-    userGridContainer.appendChild(userButton);
+    generateGrid(computerButton, computerGridContainer);
+    generateGrid(userButton, userGridContainer);
   }
 }
