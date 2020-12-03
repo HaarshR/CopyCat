@@ -9,7 +9,7 @@ const patternLengthLabel = document.getElementById("pattern-length-label");
 
 const BOX_SIZE = 100; // Fixed button size
 
-let gridSize = 0; // User Chooses
+let gridSize = 0;
 let computerSpeed = 0;
 let patternLength = 0;
 
@@ -92,6 +92,12 @@ const resetGrid = () => {
   userGridContainer.textContent = "";
 };
 
+const resetGame = () => {
+  gridSize = 0;
+  computerSpeed = 0;
+  patternLength = 0;
+};
+
 const setComputerSpeed = () => {
   computerSpeed = computerSpeedInput.value;
   computerSpeedLabel.innerText = computerSpeed;
@@ -107,9 +113,12 @@ computerSpeedInput.addEventListener("input", setComputerSpeed);
 patternLengthInput.addEventListener("input", setPatternLength);
 
 const main = () => {
+  resetGame();
+  
   setComputerSpeed();
   setPatternLength();
   buildGrid();
+  
 };
 
 main();
