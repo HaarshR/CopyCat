@@ -1,11 +1,9 @@
 const gridSizeInput = document.getElementById("grid-size");
-const buildGridButton = document.getElementById("build-grid");
-const resetGridButton = document.getElementById("reset-grid");
+const gridSizeLabel = document.getElementById("grid-size-label");
 
-let gridSize = 0; // User Chooses
 const BOX_SIZE = 100; // Fixed button size
 
-let generated = false;
+let gridSize = 0; // User Chooses
 
 const computerGridContainer = document.getElementById(
   "computer-grid-container"
@@ -26,10 +24,12 @@ const generateGrid = (component, parentComponent) => {
 const generateButton = (classList, attributeList) => {
   let button = document.createElement("button");
 
-  if (classList.length > 0) {
-    classList.forEach((className) => {
-      button.classList.add(className);
-    });
+  if (classList) {
+    if (classList.length > 0) {
+      classList.forEach((className) => {
+        button.classList.add(className);
+      });
+    }
   }
 
   if (attributeList) {
@@ -44,8 +44,10 @@ const generateButton = (classList, attributeList) => {
 };
 
 const buildGrid = () => {
-  if (!generated) {
-    gridSize = gridSizeInput.value;
+  gridSize = gridSizeInput.value;
+  gridSizeLabel.innerText = gridSize;
+  if (gridSize && gridSize > 1) {
+    resetGrid();
     let gridCount = gridSize * gridSize;
     let repeatCSS = `repeat(${gridSize}, ${BOX_SIZE}px)`;
 
@@ -59,17 +61,21 @@ const buildGrid = () => {
       for (let i = 0; i < gridCount; i++) {
         let computerButton = generateButton(
           ["btn", "btn-primary", "m-1"],
-          [{ attribute: "disabled", value: true }]
+          [
+            { attribute: "id", value: `comp-${i}` },
+            { attribute: "disabled", value: true },
+          ]
         );
-        let userButton = generateButton(["btn", "btn-success", "m-1"]);
+        let userButton = generateButton(
+          ["btn", "btn-success", "m-1"],
+          [{ attribute: "id", value: `user-${i}` }]
+        );
 
         generateGrid(computerButton, computerGridContainer);
         generateGrid(userButton, userGridContainer);
       }
     }
   }
-
-  generated = true;
 };
 
 const resetGrid = () => {
@@ -78,11 +84,10 @@ const resetGrid = () => {
   userGridContainer.textContent = "";
 };
 
-buildGridButton.addEventListener("click", buildGrid);
-resetGridButton.addEventListener("click", resetGrid);
+gridSizeInput.addEventListener("input", buildGrid);
 
 const main = () => {
-  //   buildGrid();
+  buildGrid();
 };
 
 main();
