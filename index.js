@@ -8,6 +8,7 @@ const patternLengthInput = document.getElementById("pattern-length");
 const patternLengthLabel = document.getElementById("pattern-length-label");
 
 const startGameButton = document.getElementById("start-game");
+const timerLabel = document.getElementById("timer");
 
 const BOX_SIZE = 100; // Fixed button size
 
@@ -18,7 +19,7 @@ let gridSize = 0;
 let computerSpeed = 0;
 let patternLength = 0;
 
-let gameStarted = false;
+let timer;
 
 const computerGridContainer = document.getElementById(
   "computer-grid-container"
@@ -121,16 +122,24 @@ const setPatternLength = () => {
   patternLengthLabel.innerText = patternLength;
 };
 
+const startTimer = () => {
+  timer = setInterval(() => {}, 1000);
+};
+
 const startGame = () => {
   gridSizeInput.setAttribute("disabled", true);
   computerSpeedInput.setAttribute("disabled", true);
   patternLengthInput.setAttribute("disabled", true);
+
+  startGameButton.style.visibility = "hidden";
   startGameButton.setAttribute("disabled", true);
 
   const gridBuilt = buildGrid();
 
   if (gridBuilt) {
     // Start Game Logic
+    timerLabel.style.visibility = "visible";
+    timerLabel.innerText = "Started";
   }
 };
 
