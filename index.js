@@ -7,11 +7,18 @@ const computerSpeedLabel = document.getElementById("computer-speed-label");
 const patternLengthInput = document.getElementById("pattern-length");
 const patternLengthLabel = document.getElementById("pattern-length-label");
 
+const startGameButton = document.getElementById("start-game");
+
 const BOX_SIZE = 100; // Fixed button size
+
+const COMPUTER_PATTERN = [];
+const USER_PATTERN = [];
 
 let gridSize = 0;
 let computerSpeed = 0;
 let patternLength = 0;
+
+let gameStarted = false;
 
 const computerGridContainer = document.getElementById(
   "computer-grid-container"
@@ -52,8 +59,6 @@ const generateButton = (classList, attributeList) => {
 };
 
 const buildGrid = () => {
-  gridSize = gridSizeInput.value;
-  gridSizeLabel.innerText = gridSize;
   if (gridSize && gridSize > 1) {
     resetGrid();
     let gridCount = gridSize * gridSize;
@@ -83,6 +88,9 @@ const buildGrid = () => {
         generateGrid(userButton, userGridContainer);
       }
     }
+    return true;
+  } else {
+    return false;
   }
 };
 
@@ -93,9 +101,14 @@ const resetGrid = () => {
 };
 
 const resetGame = () => {
-  gridSize = 0;
-  computerSpeed = 0;
-  patternLength = 0;
+  setGridSize();
+  setComputerSpeed();
+  setPatternLength();
+};
+
+const setGridSize = () => {
+  gridSize = gridSizeInput.value;
+  gridSizeLabel.innerText = gridSize;
 };
 
 const setComputerSpeed = () => {
@@ -108,17 +121,28 @@ const setPatternLength = () => {
   patternLengthLabel.innerText = patternLength;
 };
 
-gridSizeInput.addEventListener("input", buildGrid);
+const startGame = () => {
+  gridSizeInput.setAttribute("disabled", true);
+  computerSpeedInput.setAttribute("disabled", true);
+  patternLengthInput.setAttribute("disabled", true);
+  startGameButton.setAttribute("disabled", true);
+
+  const gridBuilt = buildGrid();
+
+  if (gridBuilt) {
+    // Start Game Logic
+  }
+};
+
+gridSizeInput.addEventListener("input", setGridSize);
 computerSpeedInput.addEventListener("input", setComputerSpeed);
 patternLengthInput.addEventListener("input", setPatternLength);
 
+startGameButton.addEventListener("click", startGame);
+
 const main = () => {
   resetGame();
-  
-  setComputerSpeed();
-  setPatternLength();
-  buildGrid();
-  
+  console.log(gridSizeInput.value);
 };
 
 main();
