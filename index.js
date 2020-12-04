@@ -37,8 +37,11 @@ const generateGrid = (component, parentComponent) => {
   parentComponent.appendChild(component);
 };
 
-const generateButton = (classList, attributeList) => {
+const generateButton = (classList, attributeList, eventToAdd) => {
   let button = document.createElement("button");
+  if (eventToAdd) {
+    button.addEventListener("click", eventToAdd);
+  }
 
   if (classList) {
     if (classList.length > 0) {
@@ -82,7 +85,10 @@ const buildGrid = () => {
         );
         let userButton = generateButton(
           ["btn", "btn-success", "m-1"],
-          [{ attribute: "id", value: `user-${i}` }]
+          [{ attribute: "id", value: `user-${i}` }],
+          () => {
+            userButtonPress(i);
+          }
         );
 
         generateGrid(computerButton, computerGridContainer);
@@ -171,6 +177,10 @@ const lightComputerButton = (id) => {
   });
 };
 
+const userButtonPress = (index) => {
+  console.log(index);
+};
+
 const startGame = () => {
   gridSizeInput.setAttribute("disabled", true);
   computerSpeedInput.setAttribute("disabled", true);
@@ -194,6 +204,7 @@ const startGame = () => {
             for (const value of pattern) {
               await lightComputerButton(value);
             }
+            console.log("next sequence");
           }
         }
       }, 2000);
