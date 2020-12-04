@@ -139,25 +139,25 @@ const countDown = (timerCount) => {
 };
 
 const generateComputerPattern = () => {
-  let finalPattern = [];
   let tempFinalPattern = [];
   // Generate final pattern
   for (let i = 0; i < patternLength; i++) {
     let index = Math.floor(Math.random() * (gridSize * gridSize));
-    finalPattern.push(index);
     tempFinalPattern.push(index);
   }
-
-  console.log(tempFinalPattern);
-
   // Geenrate sequence
-  for (let i = 0; i < finalPattern.length; i++) {
+  for (let i = 0; i < patternLength; i++) {
     COMPUTER_SEQUENCE[i] = [];
     tempFinalPattern.forEach((item) => COMPUTER_SEQUENCE[i].push(item));
     tempFinalPattern.pop();
   }
   COMPUTER_SEQUENCE.reverse(); // Computer Sequence Set
   console.log(COMPUTER_SEQUENCE);
+  return true;
+};
+
+const lightComputerButton = () => {
+  
 };
 
 const startGame = () => {
@@ -177,7 +177,9 @@ const startGame = () => {
       timerLabel.innerText = "Started";
       setTimeout(() => {
         // Start Pattern
-        generateComputerPattern();
+        const generatedComputerPattern = generateComputerPattern();
+        if (generatedComputerPattern) {
+        }
       }, 2000);
     }
   });
