@@ -19,7 +19,7 @@ let gridSize = 0;
 let computerSpeed = 0;
 let patternLength = 0;
 
-let timer;
+let timerStarted = false;
 
 const computerGridContainer = document.getElementById(
   "computer-grid-container"
@@ -122,8 +122,20 @@ const setPatternLength = () => {
   patternLengthLabel.innerText = patternLength;
 };
 
-const startTimer = () => {
-  timer = setInterval(() => {}, 1000);
+const countDown = (timerCount) => {
+  return new Promise((res, rej) => {
+    let timer = setInterval(() => {
+      if (timerCount === 0) {
+        console.log("checked");
+        clearInterval(timer);
+        res();
+      } else {
+        console.log(timerCount);
+        timerLabel.innerText = timerCount.toString();
+      }
+      timerCount--;
+    }, 1000);
+  });
 };
 
 const startGame = () => {
@@ -134,13 +146,14 @@ const startGame = () => {
   startGameButton.style.visibility = "hidden";
   startGameButton.setAttribute("disabled", true);
 
-  const gridBuilt = buildGrid();
+  timerLabel.style.visibility = "visible";
 
-  if (gridBuilt) {
-    // Start Game Logic
-    timerLabel.style.visibility = "visible";
-    timerLabel.innerText = "Started";
-  }
+  countDown(3).then(() => {
+    const gridBuilt = buildGrid();
+    if (gridBuilt) {
+      // Start Game Logic
+    }
+  });
 };
 
 gridSizeInput.addEventListener("input", setGridSize);
@@ -151,7 +164,6 @@ startGameButton.addEventListener("click", startGame);
 
 const main = () => {
   resetGame();
-  console.log(gridSizeInput.value);
 };
 
 main();
