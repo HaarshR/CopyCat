@@ -12,8 +12,8 @@ const timerLabel = document.getElementById("timer");
 
 const BOX_SIZE = 100; // Fixed button size
 
-const COMPUTER_PATTERN = [];
-const USER_PATTERN = [];
+let COMPUTER_SEQUENCE = [];
+let USER_SEQUENCE = [];
 
 let gridSize = 0;
 let computerSpeed = 0;
@@ -138,7 +138,27 @@ const countDown = (timerCount) => {
   });
 };
 
-const generateComputerPattern = () => {};
+const generateComputerPattern = () => {
+  let finalPattern = [];
+  let tempFinalPattern = [];
+  // Generate final pattern
+  for (let i = 0; i < patternLength; i++) {
+    let index = Math.floor(Math.random() * (gridSize * gridSize));
+    finalPattern.push(index);
+    tempFinalPattern.push(index);
+  }
+
+  console.log(tempFinalPattern);
+
+  // Geenrate sequence
+  for (let i = 0; i < finalPattern.length; i++) {
+    COMPUTER_SEQUENCE[i] = [];
+    tempFinalPattern.forEach((item) => COMPUTER_SEQUENCE[i].push(item));
+    tempFinalPattern.pop();
+  }
+  COMPUTER_SEQUENCE.reverse(); // Computer Sequence Set
+  console.log(COMPUTER_SEQUENCE);
+};
 
 const startGame = () => {
   gridSizeInput.setAttribute("disabled", true);
