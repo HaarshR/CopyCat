@@ -138,6 +138,8 @@ const countDown = (timerCount) => {
   });
 };
 
+const generateComputerPattern = () => {};
+
 const startGame = () => {
   gridSizeInput.setAttribute("disabled", true);
   computerSpeedInput.setAttribute("disabled", true);
@@ -148,10 +150,15 @@ const startGame = () => {
 
   timerLabel.style.visibility = "visible";
 
-  countDown(3).then(() => {
+  countDown(0).then(() => {
     const gridBuilt = buildGrid();
     if (gridBuilt) {
       // Start Game Logic
+      timerLabel.innerText = "Started";
+      setTimeout(() => {
+        // Start Pattern
+        generateComputerPattern();
+      }, 2000);
     }
   });
 };
