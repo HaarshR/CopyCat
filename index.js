@@ -156,8 +156,19 @@ const generateComputerPattern = () => {
   return true;
 };
 
-const lightComputerButton = () => {
-  
+const lightComputerButton = (id) => {
+  return new Promise((res, rej) => {
+    let button = document.getElementById(`comp-${id}`);
+
+    button.classList.remove("bg-primary");
+    button.classList.add("bg-danger");
+
+    setTimeout(() => {
+      button.classList.remove("bg-danger");
+      button.classList.add("bg-primary");
+      setTimeout(() => res(), 1000);
+    }, 1000);
+  });
 };
 
 const startGame = () => {
@@ -175,10 +186,15 @@ const startGame = () => {
     if (gridBuilt) {
       // Start Game Logic
       timerLabel.innerText = "Started";
-      setTimeout(() => {
+      setTimeout(async () => {
         // Start Pattern
         const generatedComputerPattern = generateComputerPattern();
         if (generatedComputerPattern) {
+          for (const pattern of COMPUTER_SEQUENCE) {
+            for (const value of pattern) {
+              await lightComputerButton(value);
+            }
+          }
         }
       }, 2000);
     }
