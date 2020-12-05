@@ -19,14 +19,18 @@
     />
   </head>
   <body style="background-color: #3c4a4a">
-    <div class="container-fluid">
+    <div class="container-fluid pb-5">
       <div class="row">
         <div
           class="offset-2 col-8 text-center p-5 d-flex justify-content-center align-items-center"
         >
           <h1
-            class="text-center px-3 text-white"
-            style="font-family: 'Bangers', cursive; font-size: 75px"
+            class="text-center px-3"
+            style="
+              color: yellow;
+              font-family: 'Bangers', cursive;
+              font-size: 75px;
+            "
           >
             Copy Cat
           </h1>
@@ -116,15 +120,61 @@
       </div>
       <div class="row">
         <div class="col d-flex justify-content-center">
-          <h4 id="timer" style="visibility: hidden">Get Ready</h4>
+          <h4
+            id="timer"
+            style="
+              color: #5f5a7a;
+              font-family: 'Bangers', cursive;
+              font-size: 75px;
+              visibility: hidden;
+            "
+          >
+            Get Ready
+          </h4>
         </div>
       </div>
       <div class="row">
         <div class="col d-flex justify-content-center">
-          <div id="computer-grid-container"></div>
+          <h2 style="color: yellow; font-family: 'Bangers', cursive">
+            Compooter
+          </h2>
         </div>
         <div class="col d-flex justify-content-center">
-          <div id="user-grid-container"></div>
+          <h2 style="color: yellow; font-family: 'Bangers', cursive">Youser</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col d-flex justify-content-center">
+          <div
+            class="p-5 d-flex justify-content-center text-center"
+            style="
+              background-image: linear-gradient(#acacac, #868686);
+              border-top: 10px solid #cccbcd;
+              border-right: 10px solid #525252;
+              border-bottom: 10px solid #414141;
+              border-left: 10px solid #525252;
+            "
+          >
+            <div
+              id="computer-grid-container"
+              class="p-4"
+              style="background-color: black"
+            ></div>
+          </div>
+        </div>
+        <div class="col d-flex justify-content-center">
+          <div
+            class="p-5"
+            style="
+              background-image: linear-gradient(#acacac, #868686);
+              border-top: 10px solid #cccbcd;
+              border-right: 10px solid #525252;
+              border-bottom: 10px solid #414141;
+              border-left: 10px solid #525252;
+            "
+          >
+            <div id="user-grid-container" class="p-4"></div>
+          </div>
         </div>
       </div>
     </div>
