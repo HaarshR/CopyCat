@@ -19,6 +19,8 @@ let gridSize = 0;
 let computerSpeed = 0;
 let patternLength = 0;
 
+let currentPatternNumber = 1;
+
 let timerStarted = false;
 
 const computerGridContainer = document.getElementById(
@@ -172,13 +174,21 @@ const lightComputerButton = (id) => {
     setTimeout(() => {
       button.classList.remove("bg-danger");
       button.classList.add("bg-primary");
-      setTimeout(() => res(), 1000);
-    }, 1000);
+      setTimeout(() => res(), 1000 / computerSpeed);
+    }, 1000 / computerSpeed);
   });
 };
 
 const userButtonPress = (index) => {
-  console.log(index);
+  for (let i = 0; i < currentPatternNumber; i++) {
+    if (!USER_SEQUENCE[i]) {
+      USER_SEQUENCE[i] = [];
+      USER_SEQUENCE[i].push(index);
+    } else {
+      USER_SEQUENCE[i].push(index);
+    }
+  }
+  check();
 };
 
 const startGame = () => {
@@ -200,16 +210,44 @@ const startGame = () => {
         // Start Pattern
         const generatedComputerPattern = generateComputerPattern();
         if (generatedComputerPattern) {
-          for (const pattern of COMPUTER_SEQUENCE) {
-            for (const value of pattern) {
-              await lightComputerButton(value);
-            }
-            console.log("next sequence");
-          }
+          await lightComputerButton(COMPUTER_SEQUENCE[0][0]);
         }
       }, 2000);
     }
   });
+};
+
+const check = async () => {
+  if (USER_SEQUENCE[currentPatternNumber - 1].length === currentPatternNumber) {
+    let strComputerSequence = JSON.stringify(
+      COMPUTER_SEQUENCE[currentPatternNumber - 1]
+    );
+    let strUserSequence = JSON.stringify(
+      USER_SEQUENCE[currentPatternNumber - 1]
+    );
+
+    if (strComputerSequence === strUserSequence) {
+      console.log("same!");
+      currentPatternNumber++;
+      console.log(currentPatternNumber);
+      if (currentPatternNumber <= patternLength) {
+        for (
+          let i = 0;
+          i < COMPUTER_SEQUENCE[currentPatternNumber - 1].length;
+          i++
+        ) {
+          await lightComputerButton(
+            COMPUTER_SEQUENCE[currentPatternNumber - 1][i]
+          );
+        }
+      } else {
+        console.log("You won!");
+        return;
+      }
+    } else {
+      console.log("not same!");
+    }
+  }
 };
 
 gridSizeInput.addEventListener("input", setGridSize);
