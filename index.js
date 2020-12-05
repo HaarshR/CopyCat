@@ -12,6 +12,15 @@ const timerLabel = document.getElementById("timer");
 
 const BOX_SIZE = 100; // Fixed button size
 
+const background_music = new Audio("./assets/music/background_music.mp3");
+
+const button_computer_press_sound = new Audio(
+  "./assets/music/button_computer_press.wav"
+);
+const button_user_press_sound = new Audio(
+  "./assets/music/button_user_press.wav"
+);
+
 let COMPUTER_SEQUENCE = [];
 let USER_SEQUENCE = [];
 
@@ -39,10 +48,20 @@ const generateGrid = (component, parentComponent) => {
   parentComponent.appendChild(component);
 };
 
-const generateButton = (classList, attributeList, eventToAdd, styles) => {
+const generateButton = (
+  classList,
+  attributeList,
+  mouseDown,
+  mouseUp,
+  styles
+) => {
   let button = document.createElement("button");
-  if (eventToAdd) {
-    button.addEventListener("click", eventToAdd);
+  if (mouseDown) {
+    button.addEventListener("mousedown", mouseDown);
+  }
+
+  if (mouseDown) {
+    button.addEventListener("mouseup", mouseUp);
   }
 
   if (classList) {
@@ -97,7 +116,10 @@ const buildGrid = () => {
           ["btn", "m-1"],
           [{ attribute: "id", value: `user-${i}` }],
           () => {
-            userButtonPress(i);
+            userButtonOnMouseDown(i);
+          },
+          () => {
+            userButtonOnMouseUp(i);
           },
           [
             { property: "background-color", value: "#686868" },
@@ -201,6 +223,7 @@ const generateComputerPattern = () => {
 const lightComputerButton = (id) => {
   return new Promise((res, rej) => {
     let button = document.getElementById(`comp-${id}`);
+    button_computer_press_sound.play();
 
     button.classList.remove("bg-primary");
     button.classList.add("bg-danger");
@@ -213,7 +236,15 @@ const lightComputerButton = (id) => {
   });
 };
 
-const userButtonPress = (index) => {
+const userButtonOnMouseDown = (index) => {
+  let button = document.getElementById(`user-${index}`);
+  button.style.backgroundColor = "#525050";
+  button_user_press_sound.play();
+};
+
+const userButtonOnMouseUp = (index) => {
+  let button = document.getElementById(`user-${index}`);
+  button.style.backgroundColor = "#686868";
   for (let i = 0; i < currentPatternNumber; i++) {
     if (!USER_SEQUENCE[i]) {
       USER_SEQUENCE[i] = [];
@@ -251,7 +282,7 @@ const startGame = () => {
   });
 };
 
-const check = async () => {
+const check = () => {
   if (USER_SEQUENCE[currentPatternNumber - 1].length === currentPatternNumber) {
     let strComputerSequence = JSON.stringify(
       COMPUTER_SEQUENCE[currentPatternNumber - 1]
@@ -265,15 +296,17 @@ const check = async () => {
       currentPatternNumber++;
       console.log(currentPatternNumber);
       if (currentPatternNumber <= patternLength) {
-        for (
-          let i = 0;
-          i < COMPUTER_SEQUENCE[currentPatternNumber - 1].length;
-          i++
-        ) {
-          await lightComputerButton(
-            COMPUTER_SEQUENCE[currentPatternNumber - 1][i]
-          );
-        }
+        setTimeout(async () => {
+          for (
+            let i = 0;
+            i < COMPUTER_SEQUENCE[currentPatternNumber - 1].length;
+            i++
+          ) {
+            await lightComputerButton(
+              COMPUTER_SEQUENCE[currentPatternNumber - 1][i]
+            );
+          }
+        }, 1000 / computerSpeed);
       } else {
         console.log("You won!");
         resetGame();
@@ -294,6 +327,9 @@ patternLengthInput.addEventListener("input", setPatternLength);
 startGameButton.addEventListener("click", startGame);
 
 const main = () => {
+  background_music.loop = true;
+  background_music.volume = 0.4;
+  background_music.play();
   resetGame();
 };
 
