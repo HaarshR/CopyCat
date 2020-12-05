@@ -39,7 +39,7 @@ const generateGrid = (component, parentComponent) => {
   parentComponent.appendChild(component);
 };
 
-const generateButton = (classList, attributeList, eventToAdd) => {
+const generateButton = (classList, attributeList, eventToAdd, styles) => {
   let button = document.createElement("button");
   if (eventToAdd) {
     button.addEventListener("click", eventToAdd);
@@ -57,6 +57,14 @@ const generateButton = (classList, attributeList, eventToAdd) => {
     if (attributeList.length > 0) {
       attributeList.forEach(({ attribute, value }) => {
         button.setAttribute(attribute, value);
+      });
+    }
+  }
+
+  if (styles) {
+    if (styles.length > 0) {
+      styles.forEach((style) => {
+        button.style.setProperty(style.property, style.value);
       });
     }
   }
@@ -86,11 +94,18 @@ const buildGrid = () => {
           ]
         );
         let userButton = generateButton(
-          ["btn", "btn-success", "m-1"],
+          ["btn", "m-1"],
           [{ attribute: "id", value: `user-${i}` }],
           () => {
             userButtonPress(i);
-          }
+          },
+          [
+            { property: "background-color", value: "#686868" },
+            {
+              property: "box-shadow",
+              value: "0px 0px 10px 0px rgba(0, 0, 0, 0.2)",
+            },
+          ]
         );
 
         generateGrid(computerButton, computerGridContainer);
@@ -104,6 +119,10 @@ const buildGrid = () => {
 };
 
 const resetGrid = () => {
+  computerGridContainerStyle.removeProperty("grid-template-columns");
+  computerGridContainerStyle.removeProperty("grid-template-rows");
+  userGridContainerStyle.removeProperty("grid-template-columns");
+  userGridContainerStyle.removeProperty("grid-template-rows");
   generated = false;
   computerGridContainer.textContent = "";
   userGridContainer.textContent = "";
@@ -113,6 +132,21 @@ const resetGame = () => {
   setGridSize();
   setComputerSpeed();
   setPatternLength();
+  currentPatternNumber = 1;
+
+  COMPUTER_SEQUENCE = [];
+  USER_SEQUENCE = [];
+
+  gridSizeInput.removeAttribute("disabled");
+  computerSpeedInput.removeAttribute("disabled");
+  patternLengthInput.removeAttribute("disabled");
+
+  startGameButton.style.visibility = "visible";
+  startGameButton.removeAttribute("disabled");
+
+  timerLabel.style.visibility = "hidden";
+
+  resetGrid();
 };
 
 const setGridSize = () => {
@@ -242,10 +276,13 @@ const check = async () => {
         }
       } else {
         console.log("You won!");
+        resetGame();
         return;
       }
     } else {
       console.log("not same!");
+      resetGame();
+      return;
     }
   }
 };
