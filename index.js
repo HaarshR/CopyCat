@@ -13,6 +13,8 @@ const timerLabel = document.getElementById("timer");
 const BOX_SIZE = 100; // Fixed button size
 
 const background_music = new Audio("./assets/music/background_music.mp3");
+const start_game_sound = new Audio("./assets/music/start_game_sound.mp3");
+start_game_sound.volume = 0.4;
 
 const button_computer_press_sound = new Audio(
   "./assets/music/button_computer_press.wav"
@@ -169,6 +171,8 @@ const resetGame = () => {
   timerLabel.style.visibility = "hidden";
 
   resetGrid();
+
+  scrollTo({ top });
 };
 
 const setGridSize = () => {
@@ -266,57 +270,70 @@ const startGame = () => {
 
   timerLabel.style.visibility = "visible";
 
-  countDown(0).then(() => {
-    const gridBuilt = buildGrid();
-    if (gridBuilt) {
-      // Start Game Logic
-      timerLabel.innerText = "Started";
-      setTimeout(async () => {
-        // Start Pattern
-        const generatedComputerPattern = generateComputerPattern();
-        if (generatedComputerPattern) {
-          await lightComputerButton(COMPUTER_SEQUENCE[0][0]);
-        }
-      }, 2000);
-    }
+  countDown(5).then(() => {
+    start_game_sound.play().then(() => {
+      const gridBuilt = buildGrid();
+      if (gridBuilt) {
+        // Start Game Logic
+        timerLabel.innerText = "Started";
+        setTimeout(async () => {
+          // Start Pattern
+          const generatedComputerPattern = generateComputerPattern();
+          if (generatedComputerPattern) {
+            await lightComputerButton(COMPUTER_SEQUENCE[0][0]);
+          }
+        }, 2000);
+      }
+    });
   });
 };
 
 const check = () => {
-  if (USER_SEQUENCE[currentPatternNumber - 1].length === currentPatternNumber) {
-    let strComputerSequence = JSON.stringify(
-      COMPUTER_SEQUENCE[currentPatternNumber - 1]
-    );
-    let strUserSequence = JSON.stringify(
-      USER_SEQUENCE[currentPatternNumber - 1]
-    );
+  if (
+    USER_SEQUENCE[currentPatternNumber - 1][0] ===
+    COMPUTER_SEQUENCE[currentPatternNumber - 1][0]
+  ) {
+    if (
+      USER_SEQUENCE[currentPatternNumber - 1].length === currentPatternNumber
+    ) {
+      let strComputerSequence = JSON.stringify(
+        COMPUTER_SEQUENCE[currentPatternNumber - 1]
+      );
+      let strUserSequence = JSON.stringify(
+        USER_SEQUENCE[currentPatternNumber - 1]
+      );
 
-    if (strComputerSequence === strUserSequence) {
-      console.log("same!");
-      currentPatternNumber++;
-      console.log(currentPatternNumber);
-      if (currentPatternNumber <= patternLength) {
-        setTimeout(async () => {
-          for (
-            let i = 0;
-            i < COMPUTER_SEQUENCE[currentPatternNumber - 1].length;
-            i++
-          ) {
-            await lightComputerButton(
-              COMPUTER_SEQUENCE[currentPatternNumber - 1][i]
-            );
-          }
-        }, 1000 / computerSpeed);
+      if (strComputerSequence === strUserSequence) {
+        console.log("same!");
+        currentPatternNumber++;
+        console.log(currentPatternNumber);
+        if (currentPatternNumber <= patternLength) {
+          setTimeout(async () => {
+            for (
+              let i = 0;
+              i < COMPUTER_SEQUENCE[currentPatternNumber - 1].length;
+              i++
+            ) {
+              await lightComputerButton(
+                COMPUTER_SEQUENCE[currentPatternNumber - 1][i]
+              );
+            }
+          }, 1000 / computerSpeed);
+        } else {
+          console.log("You won!");
+          resetGame();
+          return;
+        }
       } else {
-        console.log("You won!");
+        console.log("not same!");
         resetGame();
         return;
       }
-    } else {
-      console.log("not same!");
-      resetGame();
-      return;
     }
+  } else {
+    console.log("not good");
+    resetGame();
+    return;
   }
 };
 
@@ -327,9 +344,6 @@ patternLengthInput.addEventListener("input", setPatternLength);
 startGameButton.addEventListener("click", startGame);
 
 const main = () => {
-  background_music.loop = true;
-  background_music.volume = 0.4;
-  background_music.play();
   resetGame();
 };
 
