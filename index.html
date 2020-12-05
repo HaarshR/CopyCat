@@ -19,13 +19,14 @@
     />
   </head>
   <body style="background-color: #3c4a4a">
-    <div class="container-fluid pb-5">
+    <audio src="./assets/music/background_music.mp3" autoplay loop></audio>
+    <div class="container-fluid" style="padding-bottom: 500px">
       <div class="row mx-5 py-5">
         <div
           class="col-12 text-center d-flex pt-3 justify-content-center align-items-center bg-white"
           style="border-radius: 30px"
         >
-          <video width="100" autoplay loop>
+          <video width="100" autoplay loop muted>
             <source src="./assets/dance.mp4" type="video/mp4" />
           </video>
           <h1
@@ -36,10 +37,10 @@
               font-size: 75px;
             "
           >
-            Copy Cat
+            Copy_Cat
           </h1>
           <!-- <img src="./assets/dancei.gif" width="100px" /> -->
-          <video width="100" autoplay loop>
+          <video width="100" autoplay loop muted>
             <source src="./assets/dance.mp4" type="video/mp4" />
           </video>
         </div>
@@ -120,9 +121,22 @@
           </form>
         </div>
       </div>
-      <div class="row">
+      <div class="row py-4">
         <div class="col d-flex justify-content-center">
-          <button id="start-game" class="btn btn-success">Start Game</button>
+          <a href="#timer">
+            <button
+              id="start-game"
+              class="btn p-3"
+              style="
+                background-color: #5f5a7a;
+                color: yellow;
+                font-family: 'Bangers', cursive;
+                font-size: 30px;
+              "
+            >
+              Start Game
+            </button>
+          </a>
         </div>
       </div>
       <div class="row">
@@ -130,7 +144,7 @@
           <h4
             id="timer"
             style="
-              color: #5f5a7a;
+              color: yellow;
               font-family: 'Bangers', cursive;
               font-size: 75px;
               visibility: hidden;
