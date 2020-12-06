@@ -6,9 +6,14 @@
     <link rel="icon" type="image/png" href="./assets/icon.png" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bangers&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bangers&family=Bubblegum+Sans&display=swap"
       rel="stylesheet"
     />
+    <style>
+      ::-webkit-scrollbar {
+        width: 0px;
+      }
+    </style>
     <title>CopyCat</title>
     <!-- Bootstrap CSS -->
     <link
@@ -21,9 +26,9 @@
   <body style="background-color: #3c4a4a">
     <audio src="./assets/music/background_music.mp3" autoplay loop></audio>
     <div class="container-fluid" style="padding-bottom: 500px">
-      <div class="row mx-5 py-5">
+      <div class="row mx-5 py-3">
         <div
-          class="col-12 text-center d-flex pt-3 justify-content-center align-items-center bg-white"
+          class="offset-sm-0 col-sm-12 offset-md-3 col-md-6 text-center d-flex pt-3 justify-content-center align-items-center bg-white"
           style="border-radius: 30px"
         >
           <video width="100" autoplay loop muted>
@@ -45,6 +50,25 @@
           </video>
         </div>
       </div>
+      <div class="row">
+        <div
+          class="col-12 text-center d-flex py-3 justify-content-center align-items-center text-white"
+        >
+          <h3 style="font-family: 'Bubblegum Sans', cursive">
+            Oi' there CREWMATE. It seems we are in grave danger. 😖 Thy goons
+            have taken us by surprise and now our compooter has gone bazonkas. 😧
+            <br />
+            <br />
+            It <span class="text-warning">repeats a pattern</span> and the only
+            way to defeat it is to
+            <span class="text-success">copy the pattern</span>. If ya fail then
+            we are <span class="text-danger">doomed</span> CREWMATE.
+            <br />
+            <br />
+            We're counting on you! 🤕
+          </h3>
+        </div>
+      </div>
       <div
         class="row mx-3"
         style="
@@ -59,7 +83,7 @@
         >
           <form class="form-inline" onsubmit="return false;">
             <div class="form-group">
-              <h4 class="px-3 text-center text-white">Grid Size</h4>
+              <h4 class="px-3 text-center text-white">Grid Size 🔲</h4>
               <input
                 id="grid-size"
                 class="form-control"
@@ -80,7 +104,7 @@
           <form class="form-inline" onsubmit="return false;">
             <div class="form-group">
               <h4 id="computer-speed-title" class="px-3 text-center text-white">
-                Speed
+                Speed ⚡
               </h4>
               <input
                 id="computer-speed"
@@ -105,7 +129,7 @@
           <form class="form-inline" onsubmit="return false;">
             <div class="form-group">
               <h4 id="pattern-length-title" class="px-3 text-center text-white">
-                Pattern length
+                Pattern length 🎚
               </h4>
               <input
                 id="pattern-length"
@@ -202,9 +226,48 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div
+          class="col-12 text-center d-flex pt-3 justify-content-center align-items-center bg-white"
+          style="border-radius: 30px"
+        >
+          <h1
+            id="game-scores-title"
+            class="text-center px-3"
+            style="
+              color: #5f5a7a;
+              font-family: 'Bangers', cursive;
+              font-size: 75px;
+            "
+          >
+            Score_board
+          </h1>
+        </div>
+      </div>
+      <div class="row">
+        <div
+          class="col-12 text-center d-flex pt-3 justify-content-center align-items-center"
+        >
+          <button
+            id="scroll-top"
+            class="btn p-3"
+            style="
+              background-color: #5f5a7a;
+              color: yellow;
+              font-family: 'Bangers', cursive;
+              font-size: 30px;
+            "
+          >
+            Scroll To Top
+          </button>
+        </div>
+      </div>
       <div class="row pt-5">
-        <div class="offset-sm-3 col-12 col-sm-6">
-          <div id="game-scores">
+        <div class="offset-md-3 col-12 col-md-6">
+          <div
+            id="game-scores"
+            style="width: auto; height: 500px; overflow-y: scroll"
+          >
             <!-- <div
               class="row py-3"
               style="
