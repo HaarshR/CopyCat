@@ -10,6 +10,9 @@ const patternLengthTitle = document.getElementById("pattern-length-title");
 const patternLengthLabel = document.getElementById("pattern-length-label");
 
 const gameScores = document.getElementById("game-scores");
+const gameScoresTitle = document.getElementById("game-scores-title");
+
+const scrollTopButton = document.getElementById("scroll-top");
 
 const startGameButton = document.getElementById("start-game");
 const timerLabel = document.getElementById("timer");
@@ -26,9 +29,10 @@ const BOX_SIZE = 100; // Fixed button size
 
 const background_music = new Audio("./assets/music/background_music.mp3");
 const start_game_sound = new Audio("./assets/music/start_game_sound.mp3");
-start_game_sound.volume = 0.8;
 
 const countdown_sound = new Audio("./assets/music/countdown.flac");
+const lost_sound = new Audio("./assets/music/lost.wav");
+const won_sound = new Audio("./assets/music/won.wav");
 
 const button_computer_press_sound = new Audio(
   "./assets/music/button_computer_press.wav"
@@ -188,8 +192,6 @@ const resetGame = () => {
   timerLabel.style.visibility = "hidden";
 
   resetGrid();
-
-  scrollTo({ top });
 };
 
 const setGridSize = () => {
@@ -365,7 +367,7 @@ const showModal = (title, body) => {
 
 const updateGameScore = (didWin) => {
   let row = document.createElement("div");
-  row.classList.add("row", "py-3", "my-3");
+  row.classList.add("row", "py-3", "my-3", "mx-3");
   row.style.borderRadius = "30px";
   row.style.backgroundColor = "#5f5a7a";
   row.style.border = "yellow 10px solid";
@@ -462,7 +464,9 @@ const check = () => {
             `Mission Accomplished Soldier \n\n Game Settings ⚙ \n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength}`
           );
           updateGameScore(true);
+          won_sound.play();
           resetGame();
+          gameScoresTitle.scrollIntoView();
           return;
         }
       } else {
@@ -471,7 +475,9 @@ const check = () => {
           `Mission Failed, We'll Get Em' Next Time \n\n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength}`
         );
         updateGameScore(false);
+        lost_sound.play();
         resetGame();
+        gameScoresTitle.scrollIntoView();
         return;
       }
     }
@@ -481,7 +487,9 @@ const check = () => {
       `Mission Failed, We'll Get Em' Next Time \n\n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength}`
     );
     updateGameScore(false);
+    lost_sound.play();
     resetGame();
+    gameScoresTitle.scrollIntoView();
     return;
   }
 };
@@ -491,9 +499,11 @@ computerSpeedInput.addEventListener("input", setComputerSpeed);
 patternLengthInput.addEventListener("input", setPatternLength);
 
 startGameButton.addEventListener("click", startGame);
+scrollTopButton.addEventListener("click", () => scrollTo({ top }));
 
 const main = () => {
   resetGame();
+  scrollTo({ top });
 };
 
 main();
