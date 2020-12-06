@@ -9,8 +9,18 @@ const patternLengthInput = document.getElementById("pattern-length");
 const patternLengthTitle = document.getElementById("pattern-length-title");
 const patternLengthLabel = document.getElementById("pattern-length-label");
 
+const gameScores = document.getElementById("game-scores");
+
 const startGameButton = document.getElementById("start-game");
 const timerLabel = document.getElementById("timer");
+
+//! Modal Parts
+const modal = {
+  modal: document.getElementById("game-modal"),
+  show: () => $("#game-modal").modal(),
+  title: document.getElementById("game-modal-title"),
+  body: document.getElementById("game-modal-body"),
+};
 
 const BOX_SIZE = 100; // Fixed button size
 
@@ -46,6 +56,7 @@ let gridSize = 0;
 let computerSpeed = 0;
 let patternLength = 0;
 
+let gameCount = 0;
 let currentPatternNumber = 1;
 
 let timerStarted = false;
@@ -282,6 +293,7 @@ const userButtonOnMouseUp = (index) => {
 };
 
 const startGame = () => {
+  gameCount++;
   gridSizeInput.setAttribute("disabled", true);
   computerSpeedInput.setAttribute("disabled", true);
   patternLengthInput.setAttribute("disabled", true);
@@ -344,6 +356,69 @@ const checkWithPrevious = () => {
   return valid;
 };
 
+const showModal = (title, body) => {
+  modal.title.innerText = title;
+  modal.body.innerText = body;
+
+  modal.show();
+};
+
+const updateGameScore = (didWin) => {
+  let row = document.createElement("div");
+  row.classList.add("row", "py-3", "my-3");
+  row.style.borderRadius = "30px";
+  row.style.backgroundColor = "#5f5a7a";
+  row.style.border = "yellow 10px solid";
+
+  let countDiv = document.createElement("div");
+  countDiv.classList.add(
+    "col-2",
+    "d-flex",
+    "justify-content-center",
+    "align-items-center"
+  );
+  let countH2 = document.createElement("h2");
+  countH2.classList.add("text-white");
+  countH2.innerText = gameCount;
+
+  let gameDetailDiv = document.createElement("div");
+  gameDetailDiv.classList.add("col-10");
+  let gameDetailRow = document.createElement("div");
+  gameDetailRow.classList.add("row");
+
+  let gameStatusDiv = document.createElement("div");
+  gameStatusDiv.classList.add(
+    "col",
+    "d-flex",
+    "justify-content-center",
+    "align-items-center"
+  );
+  let gameStatusH2 = document.createElement("h2");
+  gameStatusH2.classList.add(didWin ? "text-success" : "text-danger");
+  gameStatusH2.innerText = didWin ? "WON" : "LOST";
+
+  let gameSettingsDiv = document.createElement("div");
+  gameSettingsDiv.classList.add("col");
+  let gameSettingsH5 = document.createElement("h5");
+  gameSettingsH5.classList.add("text-white");
+  gameSettingsH5.innerText = `Game Settings ⚙ \n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength}`;
+
+  //! Append
+  countDiv.append(countH2);
+
+  gameStatusDiv.appendChild(gameStatusH2);
+  gameSettingsDiv.appendChild(gameSettingsH5);
+
+  gameDetailRow.appendChild(gameStatusDiv);
+  gameDetailRow.appendChild(gameSettingsDiv);
+
+  gameDetailDiv.appendChild(gameDetailRow);
+
+  row.appendChild(countDiv);
+  row.appendChild(gameDetailDiv);
+  gameScores.insertBefore(row, gameScores.firstChild);
+};
+
 const check = () => {
   // Check previous patterns
   let checked = checkWithPrevious();
@@ -382,18 +457,30 @@ const check = () => {
             }
           }, 1000 / computerSpeed);
         } else {
-          console.log("You won!");
+          showModal(
+            "🔥 You Won 🔥",
+            `Mission Accomplished Soldier \n\n Game Settings ⚙ \n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength}`
+          );
+          updateGameScore(true);
           resetGame();
           return;
         }
       } else {
-        console.log("not same!");
+        howModal(
+          "💥 You Lost 💥",
+          `Mission Failed, We'll Get Em' Next Time \n\n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength}`
+        );
+        updateGameScore(false);
         resetGame();
         return;
       }
     }
   } else {
-    console.log("You lost");
+    showModal(
+      "💥 You Lost 💥",
+      `Mission Failed, We'll Get Em' Next Time \n\n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength}`
+    );
+    updateGameScore(false);
     resetGame();
     return;
   }
