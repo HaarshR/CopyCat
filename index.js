@@ -2,9 +2,11 @@ const gridSizeInput = document.getElementById("grid-size");
 const gridSizeLabel = document.getElementById("grid-size-label");
 
 const computerSpeedInput = document.getElementById("computer-speed");
+const computerSpeedTitle = document.getElementById("computer-speed-title");
 const computerSpeedLabel = document.getElementById("computer-speed-label");
 
 const patternLengthInput = document.getElementById("pattern-length");
+const patternLengthTitle = document.getElementById("pattern-length-title");
 const patternLengthLabel = document.getElementById("pattern-length-label");
 
 const startGameButton = document.getElementById("start-game");
@@ -14,7 +16,9 @@ const BOX_SIZE = 100; // Fixed button size
 
 const background_music = new Audio("./assets/music/background_music.mp3");
 const start_game_sound = new Audio("./assets/music/start_game_sound.mp3");
-start_game_sound.volume = 0.4;
+start_game_sound.volume = 0.8;
+
+const countdown_sound = new Audio("./assets/music/countdown.flac");
 
 const button_computer_press_sound = new Audio(
   "./assets/music/button_computer_press.wav"
@@ -22,6 +26,18 @@ const button_computer_press_sound = new Audio(
 const button_user_press_sound = new Audio(
   "./assets/music/button_user_press.wav"
 );
+
+const computerGridContainer = document.getElementById(
+  "computer-grid-container"
+);
+const userGridContainer = document.getElementById("user-grid-container");
+
+const computerGridContainerStyle = computerGridContainer.style;
+computerGridContainerStyle.display = "grid";
+const userGridContainerStyle = userGridContainer.style;
+userGridContainerStyle.display = "grid";
+
+let userGridChildren;
 
 let COMPUTER_SEQUENCE = [];
 let USER_SEQUENCE = [];
@@ -33,16 +49,6 @@ let patternLength = 0;
 let currentPatternNumber = 1;
 
 let timerStarted = false;
-
-const computerGridContainer = document.getElementById(
-  "computer-grid-container"
-);
-const userGridContainer = document.getElementById("user-grid-container");
-
-const computerGridContainerStyle = computerGridContainer.style;
-computerGridContainerStyle.display = "grid";
-const userGridContainerStyle = userGridContainer.style;
-userGridContainerStyle.display = "grid";
 
 const generateGrid = (component, parentComponent) => {
   component.style.width = BOX_SIZE;
@@ -183,21 +189,36 @@ const setGridSize = () => {
 const setComputerSpeed = () => {
   computerSpeed = computerSpeedInput.value;
   computerSpeedLabel.innerText = computerSpeed;
+  if (computerSpeed > 5) {
+    computerSpeedLabel.classList.add("text-danger");
+    computerSpeedTitle.classList.add("text-danger");
+  } else {
+    computerSpeedLabel.classList.remove("text-danger");
+    computerSpeedTitle.classList.remove("text-danger");
+  }
 };
 
 const setPatternLength = () => {
   patternLength = patternLengthInput.value;
   patternLengthLabel.innerText = patternLength;
+  if (patternLength > 5) {
+    patternLengthLabel.classList.add("text-danger");
+    patternLengthTitle.classList.add("text-danger");
+  } else {
+    patternLengthLabel.classList.remove("text-danger");
+    patternLengthTitle.classList.remove("text-danger");
+  }
 };
 
 const countDown = (timerCount) => {
   return new Promise((res, rej) => {
     let timer = setInterval(() => {
-      if (timerCount === 0) {
+      if (timerCount < 0) {
         console.log("checked");
         clearInterval(timer);
         res();
       } else {
+        countdown_sound.play();
         console.log(timerCount);
         timerLabel.innerText = timerCount.toString();
       }
@@ -229,12 +250,12 @@ const lightComputerButton = (id) => {
     let button = document.getElementById(`comp-${id}`);
     button_computer_press_sound.play();
 
-    button.classList.remove("bg-primary");
-    button.classList.add("bg-danger");
+    button.classList.remove("btn-primary");
+    button.classList.add("btn-danger");
 
     setTimeout(() => {
-      button.classList.remove("bg-danger");
-      button.classList.add("bg-primary");
+      button.classList.remove("btn-danger");
+      button.classList.add("btn-primary");
       setTimeout(() => res(), 1000 / computerSpeed);
     }, 1000 / computerSpeed);
   });
@@ -274,13 +295,21 @@ const startGame = () => {
     start_game_sound.play().then(() => {
       const gridBuilt = buildGrid();
       if (gridBuilt) {
+        userGridChildren = userGridContainer.children;
+        console.log(userGridChildren);
         // Start Game Logic
         timerLabel.innerText = "Started";
         setTimeout(async () => {
           // Start Pattern
           const generatedComputerPattern = generateComputerPattern();
           if (generatedComputerPattern) {
+            for (let i = 0; i < userGridChildren.length; i++) {
+              userGridChildren[i].setAttribute("disabled", true);
+            }
             await lightComputerButton(COMPUTER_SEQUENCE[0][0]);
+            for (let i = 0; i < userGridChildren.length; i++) {
+              userGridChildren[i].removeAttribute("disabled");
+            }
           }
         }, 2000);
       }
@@ -341,9 +370,15 @@ const check = () => {
               i < COMPUTER_SEQUENCE[currentPatternNumber - 1].length;
               i++
             ) {
+              for (let i = 0; i < userGridChildren.length; i++) {
+                userGridChildren[i].setAttribute("disabled", true);
+              }
               await lightComputerButton(
                 COMPUTER_SEQUENCE[currentPatternNumber - 1][i]
               );
+              for (let i = 0; i < userGridChildren.length; i++) {
+                userGridChildren[i].removeAttribute("disabled");
+              }
             }
           }, 1000 / computerSpeed);
         } else {
