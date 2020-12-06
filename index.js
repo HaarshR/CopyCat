@@ -288,11 +288,38 @@ const startGame = () => {
   });
 };
 
+const checkWithPrevious = () => {
+  let valid = false;
+  if (currentPatternNumber === 1) {
+    if (
+      USER_SEQUENCE[currentPatternNumber - 1][0] ===
+      COMPUTER_SEQUENCE[currentPatternNumber - 1][0]
+    ) {
+      valid = true;
+    } else {
+      valid = false;
+    }
+  } else {
+    for (let i = 0; i < USER_SEQUENCE[currentPatternNumber - 1].length; i++) {
+      if (
+        USER_SEQUENCE[currentPatternNumber - 1][i] ===
+        COMPUTER_SEQUENCE[currentPatternNumber - 1][i]
+      ) {
+        valid = true;
+      } else {
+        valid = false;
+      }
+    }
+  }
+
+  return valid;
+};
+
 const check = () => {
-  if (
-    USER_SEQUENCE[currentPatternNumber - 1][0] ===
-    COMPUTER_SEQUENCE[currentPatternNumber - 1][0]
-  ) {
+  // Check previous patterns
+  let checked = checkWithPrevious();
+
+  if (checked) {
     if (
       USER_SEQUENCE[currentPatternNumber - 1].length === currentPatternNumber
     ) {
@@ -331,7 +358,7 @@ const check = () => {
       }
     }
   } else {
-    console.log("not good");
+    console.log("You lost");
     resetGame();
     return;
   }
