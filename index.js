@@ -17,6 +17,18 @@ const scrollTopButton = document.getElementById("scroll-top");
 const startGameButton = document.getElementById("start-game");
 const timerLabel = document.getElementById("timer");
 
+const gameContainer = document.getElementById("game-container");
+
+const computerGridContainer = document.getElementById(
+  "computer-grid-container"
+);
+const userGridContainer = document.getElementById("user-grid-container");
+
+const computerGridContainerStyle = computerGridContainer.style;
+computerGridContainerStyle.display = "grid";
+const userGridContainerStyle = userGridContainer.style;
+userGridContainerStyle.display = "grid";
+
 //! Modal Parts
 const modal = {
   modal: document.getElementById("game-modal"),
@@ -41,17 +53,9 @@ const button_user_press_sound = new Audio(
   "./assets/music/button_user_press.wav"
 );
 
-const computerGridContainer = document.getElementById(
-  "computer-grid-container"
-);
-const userGridContainer = document.getElementById("user-grid-container");
-
-const computerGridContainerStyle = computerGridContainer.style;
-computerGridContainerStyle.display = "grid";
-const userGridContainerStyle = userGridContainer.style;
-userGridContainerStyle.display = "grid";
-
 let userGridChildren;
+
+let gameStarted = false;
 
 let COMPUTER_SEQUENCE = [];
 let USER_SEQUENCE = [];
@@ -63,7 +67,8 @@ let patternLength = 0;
 let gameCount = 0;
 let currentPatternNumber = 1;
 
-let timerStarted = false;
+let gameTimer;
+let gameTimerCount = 0;
 
 const generateGrid = (component, parentComponent) => {
   component.style.width = BOX_SIZE;
@@ -196,12 +201,12 @@ const resetGame = () => {
 
 const setGridSize = () => {
   gridSize = gridSizeInput.value;
-  gridSizeLabel.innerText = gridSize;
+  gridSizeLabel.innerText = `${gridSize} x ${gridSize}`;
 };
 
 const setComputerSpeed = () => {
   computerSpeed = computerSpeedInput.value;
-  computerSpeedLabel.innerText = computerSpeed;
+  computerSpeedLabel.innerText = computerSpeed - 1;
   if (computerSpeed > 5) {
     computerSpeedLabel.classList.add("text-danger");
     computerSpeedTitle.classList.add("text-danger");
@@ -294,8 +299,22 @@ const userButtonOnMouseUp = (index) => {
   check();
 };
 
+const startGameTimerCounter = () => {
+  gameTimer = setInterval(() => {
+    timerLabel.innerText = `Time Elapsed: ${gameTimerCount} s`;
+    gameTimerCount++;
+  }, 1000);
+};
+
+const stopGameTimerCounter = () => {
+  gameTimerCount = 0;
+  clearInterval(gameTimer);
+};
+
 const startGame = () => {
+  gameContainer.scrollIntoView();
   gameCount++;
+  gameStarted = true;
   gridSizeInput.setAttribute("disabled", true);
   computerSpeedInput.setAttribute("disabled", true);
   patternLengthInput.setAttribute("disabled", true);
@@ -317,6 +336,7 @@ const startGame = () => {
           // Start Pattern
           const generatedComputerPattern = generateComputerPattern();
           if (generatedComputerPattern) {
+            startGameTimerCounter();
             for (let i = 0; i < userGridChildren.length; i++) {
               userGridChildren[i].setAttribute("disabled", true);
             }
@@ -403,7 +423,7 @@ const updateGameScore = (didWin) => {
   gameSettingsDiv.classList.add("col");
   let gameSettingsH5 = document.createElement("h5");
   gameSettingsH5.classList.add("text-white");
-  gameSettingsH5.innerText = `Game Settings ⚙ \n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength}`;
+  gameSettingsH5.innerText = `Game Settings ⚙ \n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength} \n Time Taken: ${gameTimerCount}s`;
 
   //! Append
   countDiv.append(countH2);
@@ -459,37 +479,43 @@ const check = () => {
             }
           }, 1000 / computerSpeed);
         } else {
+          gameStarted = false;
           showModal(
             "🔥 You Won 🔥",
-            `Mission Accomplished Soldier \n\n Game Settings ⚙ \n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength}`
+            `Mission Accomplished Soldier \n\n Game Settings ⚙ \n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength} \n Time Taken: ${gameTimerCount}s`
           );
           updateGameScore(true);
           won_sound.play();
-          resetGame();
           gameScoresTitle.scrollIntoView();
+          resetGame();
+          stopGameTimerCounter();
           return;
         }
       } else {
+        gameStarted = false;
         howModal(
           "💥 You Lost 💥",
-          `Mission Failed, We'll Get Em' Next Time \n\n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength}`
+          `Mission Failed, We'll Get Em' Next Time \n\n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength} \n Time Taken: ${gameTimerCount}s`
         );
         updateGameScore(false);
         lost_sound.play();
-        resetGame();
         gameScoresTitle.scrollIntoView();
+        resetGame();
+        stopGameTimerCounter();
         return;
       }
     }
   } else {
+    gameStarted = false;
     showModal(
       "💥 You Lost 💥",
-      `Mission Failed, We'll Get Em' Next Time \n\n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength}`
+      `Mission Failed, We'll Get Em' Next Time \n\n Grid Size: ${gridSize} \n Speed: ${computerSpeed} \n Pattern Length: ${patternLength} \n Time Taken: ${gameTimerCount}s`
     );
     updateGameScore(false);
     lost_sound.play();
-    resetGame();
     gameScoresTitle.scrollIntoView();
+    resetGame();
+    stopGameTimerCounter();
     return;
   }
 };
@@ -500,6 +526,176 @@ patternLengthInput.addEventListener("input", setPatternLength);
 
 startGameButton.addEventListener("click", startGame);
 scrollTopButton.addEventListener("click", () => scrollTo({ top }));
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    if (!gameStarted) {
+      startGame();
+    }
+  }
+
+  switch (e.key) {
+    case "q":
+      userButtonOnMouseDown(0);
+      break;
+    case "w":
+      userButtonOnMouseDown(1);
+      break;
+    case "e":
+      userButtonOnMouseDown(2);
+      break;
+    case "r":
+      userButtonOnMouseDown(3);
+      break;
+    case "t":
+      userButtonOnMouseDown(4);
+      break;
+    case "y":
+      userButtonOnMouseDown(5);
+      break;
+    case "u":
+      userButtonOnMouseDown(6);
+      break;
+    case "i":
+      userButtonOnMouseDown(7);
+      break;
+    case "o":
+      userButtonOnMouseDown(8);
+      break;
+    case "p":
+      userButtonOnMouseDown(9);
+      break;
+    case "a":
+      userButtonOnMouseDown(10);
+      break;
+    case "s":
+      userButtonOnMouseDown(11);
+      break;
+    case "d":
+      userButtonOnMouseDown(12);
+      break;
+    case "f":
+      userButtonOnMouseDown(13);
+      break;
+    case "g":
+      userButtonOnMouseDown(14);
+      break;
+    case "h":
+      userButtonOnMouseDown(15);
+      break;
+    case "j":
+      userButtonOnMouseDown(16);
+      break;
+    case "k":
+      userButtonOnMouseDown(17);
+      break;
+    case "l":
+      userButtonOnMouseDown(18);
+      break;
+    case "z":
+      userButtonOnMouseDown(19);
+      break;
+    case "x":
+      userButtonOnMouseDown(20);
+      break;
+    case "c":
+      userButtonOnMouseDown(21);
+      break;
+    case "v":
+      userButtonOnMouseDown(22);
+      break;
+    case "b":
+      userButtonOnMouseDown(23);
+      break;
+    case "n":
+      userButtonOnMouseDown(24);
+      break;
+    default:
+      break;
+  }
+});
+
+document.addEventListener("keyup", (e) => {
+  switch (e.key) {
+    case "q":
+      userButtonOnMouseUp(0);
+      break;
+    case "w":
+      userButtonOnMouseUp(1);
+      break;
+    case "e":
+      userButtonOnMouseUp(2);
+      break;
+    case "r":
+      userButtonOnMouseUp(3);
+      break;
+    case "t":
+      userButtonOnMouseUp(4);
+      break;
+    case "y":
+      userButtonOnMouseUp(5);
+      break;
+    case "u":
+      userButtonOnMouseUp(6);
+      break;
+    case "i":
+      userButtonOnMouseUp(7);
+      break;
+    case "o":
+      userButtonOnMouseUp(8);
+      break;
+    case "p":
+      userButtonOnMouseUp(9);
+      break;
+    case "a":
+      userButtonOnMouseUp(10);
+      break;
+    case "s":
+      userButtonOnMouseUp(11);
+      break;
+    case "d":
+      userButtonOnMouseUp(12);
+      break;
+    case "f":
+      userButtonOnMouseUp(13);
+      break;
+    case "g":
+      userButtonOnMouseUp(14);
+      break;
+    case "h":
+      userButtonOnMouseUp(15);
+      break;
+    case "j":
+      userButtonOnMouseUp(16);
+      break;
+    case "k":
+      userButtonOnMouseUp(17);
+      break;
+    case "l":
+      userButtonOnMouseUp(18);
+      break;
+    case "z":
+      userButtonOnMouseUp(19);
+      break;
+    case "x":
+      userButtonOnMouseUp(20);
+      break;
+    case "c":
+      userButtonOnMouseUp(21);
+      break;
+    case "v":
+      userButtonOnMouseUp(22);
+      break;
+    case "b":
+      userButtonOnMouseUp(23);
+      break;
+    case "n":
+      userButtonOnMouseUp(24);
+      break;
+    default:
+      break;
+  }
+});
 
 const main = () => {
   resetGame();
