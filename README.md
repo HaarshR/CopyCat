@@ -28,6 +28,5 @@ The inspiration for the game's look is from a minigame in the popular game **Amo
 
 #### RESOURCES
 
-[JS Key Event](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)
-[Simon Game](https://www.youtube.com/watch?v=W0MxUHlZo6U) - Used to understand button click _check_
-
+*[JS Key Event](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)
+*[Simon Game](https://www.youtube.com/watch?v=W0MxUHlZo6U) - Used to understand button click _check_
