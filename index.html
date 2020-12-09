@@ -51,26 +51,74 @@
         </div>
       </div>
       <div class="row">
-        <div
-          class="col-12 text-center d-flex py-3 justify-content-center align-items-center text-white"
-        >
-          <h3 style="font-family: 'Bubblegum Sans', cursive">
-            Oi' there CREWMATE. It seems we are in grave danger. 😖 Thy goons
-            have taken us by surprise and now our compooter has gone bazonkas. 😧
-            <br />
-            <br />
-            It <span class="text-warning">repeats a pattern</span> and the only
-            way to defeat it is to
-            <span class="text-success">copy the pattern</span>. If ya fail then
-            we are <span class="text-danger">doomed</span> CREWMATE.
-            <br />
-            <br />
-            We're counting on you! 🤕
-          </h3>
+        <div class="col-12 py-3 text-white">
+          <div class="row mx-3">
+            <div class="col-6 py-3">
+              <div
+                class="p-3"
+                style="border: 10px white solid; border-radius: 20px"
+              >
+                <h2
+                  style="color: yellow; font-family: 'Bubblegum Sans', cursive"
+                >
+                  Story
+                </h2>
+                <h4
+                  style="
+                    font-family: 'Bubblegum Sans', cursive;
+                    text-align: left;
+                  "
+                >
+                  Oi' there CREWMATE. It seems we are in grave danger. 😖
+                  <br />
+                  Thy goons have invaded us and our compooter has gone bazonkas.
+                  😧
+                  <br />
+                  It <span class="text-warning">repeats a pattern</span> and the
+                  only way to defeat it is to
+                  <span class="text-success">copy the pattern</span>.
+                  <br />
+                  If ya fail then we are
+                  <span class="text-danger">doomed</span> CREWMATE.
+                  <br />
+                  We're counting on you! 🤕
+                </h4>
+              </div>
+            </div>
+            <div class="col-6 py-3">
+              <div
+                class="p-3"
+                style="border: 10px white solid; border-radius: 20px"
+              >
+                <h2
+                  style="color: yellow; font-family: 'Bubblegum Sans', cursive"
+                >
+                  Instructions
+                </h2>
+                <h4
+                  style="
+                    font-family: 'Bubblegum Sans', cursive;
+                    text-align: left;
+                  "
+                >
+                  <span class="text-warning"
+                    >Watch the Compooter's pattern</span
+                  >
+                  on the Compooter's grid.
+                  <br />
+                  <span class="text-success">Repeat the pattern</span> on the
+                  Yooser grid. <br /><br />
+                  ⚙ You can change the difficulty settings by
+                  <span class="text-warning">adjusting the sliders.</span>
+                  <br /><br />
+                </h4>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div
-        class="row mx-3"
+        class="row mx-3 py-3"
         style="
           background-color: #5f5a7a;
           border-radius: 30px;
@@ -83,7 +131,14 @@
         >
           <form class="form-inline" onsubmit="return false;">
             <div class="form-group">
-              <h4 class="px-3 text-center text-white">Grid Size 🔲</h4>
+              <h4
+                class="px-3 text-center text-white"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="The size of the grid"
+              >
+                Grid Size 🔲
+              </h4>
               <input
                 id="grid-size"
                 class="form-control"
@@ -103,16 +158,22 @@
         >
           <form class="form-inline" onsubmit="return false;">
             <div class="form-group">
-              <h4 id="computer-speed-title" class="px-3 text-center text-white">
+              <h4
+                id="computer-speed-title"
+                class="px-3 text-center text-white"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="The speed of the computer"
+              >
                 Speed ⚡
               </h4>
               <input
                 id="computer-speed"
                 class="form-control"
                 type="range"
-                min="1"
+                min="2"
                 max="10"
-                value="1"
+                value="2"
                 style="text-align: center"
                 required
               />
@@ -128,7 +189,13 @@
         >
           <form class="form-inline" onsubmit="return false;">
             <div class="form-group">
-              <h4 id="pattern-length-title" class="px-3 text-center text-white">
+              <h4
+                id="pattern-length-title"
+                class="px-3 text-center text-white"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="The length of the pattern sequence"
+              >
                 Pattern length 🎚
               </h4>
               <input
@@ -149,84 +216,93 @@
           </form>
         </div>
       </div>
-      <div class="row py-4">
-        <div class="col d-flex justify-content-center">
-          <a href="#timer">
-            <button
-              id="start-game"
-              class="btn p-3"
-              style="
-                background-color: #5f5a7a;
-                color: yellow;
-                font-family: 'Bangers', cursive;
-                font-size: 30px;
-              "
-            >
-              Start Game
-            </button>
-          </a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col d-flex justify-content-center">
-          <h4
-            id="timer"
-            style="
-              color: yellow;
-              font-family: 'Bangers', cursive;
-              font-size: 75px;
-              visibility: hidden;
-            "
-          >
-            Get Ready
-          </h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col d-flex justify-content-center">
-          <h2 style="color: yellow; font-family: 'Bangers', cursive">
-            Compooter
-          </h2>
-        </div>
-        <div class="col d-flex justify-content-center">
-          <h2 style="color: yellow; font-family: 'Bangers', cursive">Youser</h2>
-        </div>
-      </div>
-      <div class="row py-5">
-        <div class="col d-flex justify-content-center">
-          <div
-            class="p-5 d-flex justify-content-center text-center"
-            style="
-              background-image: linear-gradient(#acacac, #868686);
-              border-top: 10px solid #cccbcd;
-              border-right: 10px solid #525252;
-              border-bottom: 10px solid #414141;
-              border-left: 10px solid #525252;
-            "
-          >
-            <div
-              id="computer-grid-container"
-              class="p-4"
-              style="background-color: black"
-            ></div>
+      <div id="game-container" class="row mt-5 mx-3">
+        <div
+          class="col-12"
+          style="border: 10px white solid; border-radius: 20px"
+        >
+          <div class="row py-4 mt-5">
+            <div class="col d-flex justify-content-center">
+              <a href="#start-game">
+                <button
+                  id="start-game"
+                  class="btn p-3"
+                  style="
+                    background-color: #5f5a7a;
+                    color: yellow;
+                    font-family: 'Bangers', cursive;
+                    font-size: 30px;
+                  "
+                >
+                  Start Game
+                </button>
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col d-flex justify-content-center">
+              <h4
+                id="timer"
+                style="
+                  color: yellow;
+                  font-family: 'Bangers', cursive;
+                  font-size: 75px;
+                  visibility: hidden;
+                "
+              >
+                Get Ready
+              </h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col d-flex justify-content-center">
+              <h2 style="color: yellow; font-family: 'Bangers', cursive">
+                Compooter
+              </h2>
+            </div>
+            <div class="col d-flex justify-content-center">
+              <h2 style="color: yellow; font-family: 'Bangers', cursive">
+                Youser
+              </h2>
+            </div>
+          </div>
+          <div class="row py-5">
+            <div class="col d-flex justify-content-center">
+              <div
+                class="p-5 d-flex justify-content-center text-center"
+                style="
+                  background-image: linear-gradient(#acacac, #868686);
+                  border-top: 10px solid #cccbcd;
+                  border-right: 10px solid #525252;
+                  border-bottom: 10px solid #414141;
+                  border-left: 10px solid #525252;
+                "
+              >
+                <div
+                  id="computer-grid-container"
+                  class="p-4"
+                  style="background-color: black"
+                ></div>
+              </div>
+            </div>
+            <div class="col d-flex justify-content-center">
+              <div
+                class="p-5"
+                style="
+                  background-image: linear-gradient(#acacac, #868686);
+                  border-top: 10px solid #cccbcd;
+                  border-right: 10px solid #525252;
+                  border-bottom: 10px solid #414141;
+                  border-left: 10px solid #525252;
+                "
+              >
+                <div id="user-grid-container" class="p-4"></div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col d-flex justify-content-center">
-          <div
-            class="p-5"
-            style="
-              background-image: linear-gradient(#acacac, #868686);
-              border-top: 10px solid #cccbcd;
-              border-right: 10px solid #525252;
-              border-bottom: 10px solid #414141;
-              border-left: 10px solid #525252;
-            "
-          >
-            <div id="user-grid-container" class="p-4"></div>
-          </div>
-        </div>
       </div>
-      <div class="row">
+      <div class="row mt-5">
         <div
           class="col-12 text-center d-flex pt-3 justify-content-center align-items-center bg-white"
           style="border-radius: 30px"
@@ -266,40 +342,14 @@
         <div class="offset-md-3 col-12 col-md-6">
           <div
             id="game-scores"
-            style="width: auto; height: 500px; overflow-y: scroll"
-          >
-            <!-- <div
-              class="row py-3"
-              style="
-                border-radius: 30px;
-                background-color: #5f5a7a;
-                border: yellow 10px solid;
-              "
-            >
-              <div
-                class="col-2 d-flex justify-content-center align-items-center"
-              >
-                <h2 class="text-white">1</h2>
-              </div>
-              <div class="col-10">
-                <div class="row">
-                  <div
-                    class="col d-flex justify-content-center align-items-center"
-                  >
-                    <h2 class="text-danger">LOST</h2>
-                  </div>
-                  <div class="col">
-                    <h5 class="text-white">
-                      Game Settings ⚙ <br />
-                      Grid Size: 2 <br />
-                      Speed: 3 <br />
-                      Pattern Length: 4
-                    </h5>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-          </div>
+            style="
+              width: auto;
+              height: 500px;
+              overflow-y: scroll;
+              border: white 10px solid;
+              border-radius: 20px;
+            "
+          ></div>
         </div>
       </div>
       <div class="modal fade" id="game-modal" tabindex="-1" role="dialog">
