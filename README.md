@@ -2,9 +2,15 @@
 
 ## _**A Game Made in JavaScript**_
 
-#### Author: **Rambhojun Yajush Haarsh**
+#### Author: **Rambhojun Yajush Haarsh** 👨‍🎓
 
-#### Module: **Advanced Web Development**
+#### Module: **Advanced Web Development** 💻
+
+#### Technology Used:
+
+1. JavaScript ⚡
+2. Bootstrap 💄
+3. HTML, CSS 🕸
 
 #### Game Description
 
@@ -19,3 +25,9 @@ In this version of Copy Cat, the computer and player have a grid. The computer w
 The inspiration for the game's look is from a minigame in the popular game **Among Us**.
 
 ![Among Us Minigame](/readme_media/amongus.jpg)
+
+#### RESOURCES
+
+[JS Key Event](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)
+[Simon Game](https://www.youtube.com/watch?v=W0MxUHlZo6U) - Used to understand button click _check_
+
