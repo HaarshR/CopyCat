@@ -48,6 +48,7 @@ const start_game_sound = new Audio("./assets/music/start_game_sound.mp3");
 const countdown_sound = new Audio("./assets/music/countdown.flac");
 const lost_sound = new Audio("./assets/music/lost.wav");
 const won_sound = new Audio("./assets/music/won.wav");
+won_sound.volume = 0.5;
 
 const button_computer_press_sound = new Audio(
   "./assets/music/button_computer_press.wav"
@@ -713,7 +714,7 @@ document.addEventListener("keyup", (e) => {
       startGame();
     }
   }
-  
+
   switch (e.key) {
     case "q":
       userButtonOnMouseUp(0);
